@@ -15,6 +15,12 @@ export default {
       data: values,
     });
   },
+  create(values) {
+    return request('/channel/save', {
+      method: 'POST',
+      data: values,
+    });
+  },
   getDetail(account) {
     return request(`/getDetail?account=${account}`)
   }

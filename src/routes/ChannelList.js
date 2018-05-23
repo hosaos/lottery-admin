@@ -49,7 +49,6 @@ const ChannelList = ({
     });
   }
   function createHandler(values, cb) {
-    console.log(values);
     dispatch({
       type: 'channelList/create',
       payload: { values, cb }

@@ -55,6 +55,10 @@ const ChannelListFilter = ({
     setFieldsValue(fields)
     handleSubmit()
   }
+  const create = (values, cb) => {
+    console.log(values);
+    onCreate(values, cb)
+  }
 
   return (
     <Row gutter={24}>
@@ -67,7 +71,7 @@ const ChannelListFilter = ({
             <Button type="primary" className="margin-right" style={{ marginRight: '10' }} onClick={handleSubmit}>查询</Button>
             <Button onClick={handleReset}>重置</Button>
           </div>
-          <ChannelModal record={{}} onOk={onCreate.bind(null, null)}>
+          <ChannelModal record={{}} onOk={create}>
             <div className="flex-vertical-center" style={{ textAlign: 'center' }}>
               <Button type="primary">新增渠道</Button>
             </div>
