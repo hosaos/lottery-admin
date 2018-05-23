@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { withRouter } from 'dva/router';
-import { Table, Pagination } from 'antd'
+import { Table, Pagination, Button } from 'antd'
 import { PAGE_SIZE } from '../utils/constant'
 import ChannelListFilter from './ChannelListFilter'
 import ChannelModal from '../components/ChannelModal'
@@ -14,12 +14,6 @@ const ChannelList = ({
   // location.query = queryString.parse(location.search)
   // const { query, pathname } = location
 
-  // componentDidMount() {
-  //   this.handleRefresh({
-  //     pageIndex: 1,
-  //     pageSize: PAGE_SIZE,
-  //   })
-  // }
   const filterProps = {
     filter: {
     },
@@ -29,15 +23,11 @@ const ChannelList = ({
         pageIndex: 1,
       })
     },
-    onAdd() {
-      // dispatch({
-      //   type: 'user/showModal',
-      //   payload: {
-      //     modalType: 'create',
-      //   },
-      // })
+    onCreate(value) {
+      createHandler(value);
     },
   }
+
   const pageChangeHandler = (page) => {
     handleRefresh({
       pageIndex: page,
@@ -56,6 +46,13 @@ const ChannelList = ({
     dispatch({
       type: 'channelList/edit',
       payload: { pkId, values },
+    });
+  }
+  function createHandler(values, cb) {
+    console.log(values);
+    dispatch({
+      type: 'channelList/create',
+      payload: { values, cb }
     });
   }
   const columns = [
@@ -102,7 +99,6 @@ const ChannelList = ({
       ),
     }
   ]
-
 
   return (
     <div>

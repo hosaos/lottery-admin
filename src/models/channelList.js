@@ -13,6 +13,12 @@ export default {
     save(state, { payload: { data: list, total, pageIndex, loading } }) {
       return { ...state, list, total, pageIndex, loading };
     },
+    showModal(state, { payload }) {
+      return { ...state, ...payload, modalVisible: true }
+    },
+    hideModal(state) {
+      return { ...state, modalVisible: false }
+    },
   },
   effects: {
     *reload(action, { put, select }) {
@@ -48,7 +54,6 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
-        debugger;
         const payload = query || { pageIndex: 1, pageSize: 2 }
         if (pathname === '/channels') {
           dispatch({ type: 'get', payload });

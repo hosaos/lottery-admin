@@ -5,5 +5,5 @@ export default {
   BASE_API: prod ? '' : '',
   // API_PREFIX: '/api',
   API_PREFIX: '/ywwl-lottery-web',
-  PAGE_SIZE: 2,
+  PAGE_SIZE: 5,
 }
