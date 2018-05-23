@@ -3,5 +3,7 @@ const prod = process.env.NODE_DEV === 'production'
 // todo 这里好像不够清晰
 export default {
   BASE_API: prod ? '' : '',
-  API_PREFIX: '/api',
+  // API_PREFIX: '/api',
+  API_PREFIX: '/ywwl-lottery-web',
+  PAGE_SIZE: 2,
 }

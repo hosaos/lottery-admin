@@ -1,5 +1,44 @@
-import fetch from 'dva/fetch';
+import axios from 'axios';
 import { BASE_API, API_PREFIX } from './constant';
+
+
+axios.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8';
+// axios.defaults.headers.common['Authorization'] = sessionStorage.getItem('Authorization')
+
+const fetch = (url, options) => {
+  const { method = 'get', data } = options;
+  switch (method.toLowerCase()) {
+    case 'get':
+      return axios.get(url, { params: data });
+    case 'delete':
+      return axios.delete(url, { data });
+    case 'head':
+      return axios.head(url, data);
+    case 'post':
+      return axios.post(url, JSON.stringify(data));
+    case 'patch':
+      return axios.patch(url, data);
+    default:
+      return axios(options);
+  }
+};
+
+export function get(url, options) {
+  return request(url, { ...options, method: 'get' });
+}
+
+export function post(url, options) {
+  return request(url, { ...options, method: 'post' });
+}
+
+export function put(url, options) {
+  return request(url, { ...options, method: 'put' });
+}
+
+export function deleted(url, options) {
+  return request(url, { ...options, method: 'deleted' });
+}
+
 
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
@@ -11,12 +50,13 @@ function checkStatus(response) {
   throw error;
 }
 
-function responseInterceptor({ data, code, message }) {
+function responseInterceptor({ data, code, msg }) {
+  debugger;
   if (code === 1) {
     return data;
   }
 
-  throw new Error(message);
+  throw new Error(msg);
   // return Promise.reject(new Error(message));
 }
 
@@ -28,17 +68,17 @@ function responseInterceptor({ data, code, message }) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(url, options) {
+  const requestUrl = BASE_API + API_PREFIX + url;
   /**
    * Do something before send.
    */
-  return fetch(BASE_API + API_PREFIX + url, {
-    headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-      'X-Token': window.store.token,
-    },
-    ...options,
-  })
+  return fetch(requestUrl, options)
     .then(checkStatus)
-    .then(response => response.json())
+    .then(handelData)
     .then(responseInterceptor)
+}
+
+function handelData(res) {
+  const data = res.data;
+  return { ...data };
 }

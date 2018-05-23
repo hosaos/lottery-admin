@@ -13,6 +13,7 @@ const app = dva({
 
 app.model(require("./models/login"));
 app.model(require("./models/list"));
+app.model(require("./models/channelList"));
 
 // Router
 app.router(require('./router'));

@@ -15,5 +15,11 @@
         ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }]
       ]
     }
+  },
+  "proxy": {
+      "/ywwl-lottery-web": {
+            "target": "http://localhost:7070",
+            "changeOrigin": true
+       }
   }
 }
