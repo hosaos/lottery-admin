@@ -1,12 +1,18 @@
 import request from '../utils/request';
+import { PAGE_SIZE } from '../utils/constant'
 
 export default {
-  getList({ pageIndex, pageSize }) {
-    debugger;
-    const params = { pageIndex, pageSize };
-    return request('/channel/pageList', {
+  getList({ pageIndex, channelName }) {
+    const params = { pageIndex, pageSize: PAGE_SIZE, channelName };
+    return request('/channel/list/page', {
       method: 'get',
       data: params
+    });
+  },
+  edit(pkId, values) {
+    return request('/channel/edit', {
+      method: 'POST',
+      data: values,
     });
   },
   getDetail(account) {

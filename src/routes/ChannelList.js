@@ -3,36 +3,69 @@ import { connect } from 'dva';
 import { withRouter } from 'dva/router';
 import { Table, Pagination } from 'antd'
 import { PAGE_SIZE } from '../utils/constant'
+import ChannelListFilter from './ChannelListFilter'
+import ChannelModal from '../components/ChannelModal'
 
-class ChannelList extends React.Component {
-// function ChannelList({ props, dispatch, list: total, page}) {
-  componentDidMount() {
-    // this.props.dispatch({
-    //   type: 'channels',
-    //   query: { page: 1 },
-    // });
-    this.props.dispatch({
-      type: 'channelList/get',
-      payload: { pageIndex: 1, pageSize: PAGE_SIZE },
-    })
 
-    // this.props.dispatch(routerRedux.push({
-    //   pathname: '/channels',
-    //   query: { page: 1 },
-    // }));
+// class ChannelList extends React.Component {
+const ChannelList = ({
+                location, dispatch, loading, list, pageIndex, total
+              }) => {
+  // location.query = queryString.parse(location.search)
+  // const { query, pathname } = location
+
+  // componentDidMount() {
+  //   this.handleRefresh({
+  //     pageIndex: 1,
+  //     pageSize: PAGE_SIZE,
+  //   })
+  // }
+  const filterProps = {
+    filter: {
+    },
+    onFilterChange(value) {
+      handleRefresh({
+        ...value,
+        pageIndex: 1,
+      })
+    },
+    onAdd() {
+      // dispatch({
+      //   type: 'user/showModal',
+      //   payload: {
+      //     modalType: 'create',
+      //   },
+      // })
+    },
   }
-  pageChangeHandler(page) {
-    this.props.dispatch({
-      type: 'channelList/get',
-      payload: { pageIndex: page, pageSize: PAGE_SIZE },
+  const pageChangeHandler = (page) => {
+    handleRefresh({
+      pageIndex: page,
     })
   }
 
+  const handleRefresh = (query) => {
+    debugger;
+    dispatch({
+      type: 'channelList/get',
+      payload: query,
+    })
+  };
 
-  columns = [
+  const editHandler = (pkId, values) => {
+    dispatch({
+      type: 'channelList/edit',
+      payload: { pkId, values },
+    });
+  }
+  const columns = [
     {
       title: '渠道id',
       dataIndex: 'id',
+    },
+    {
+      title: '渠道名称',
+      dataIndex: 'channelName',
     },
     {
       title: '二维码',
@@ -62,36 +95,36 @@ class ChannelList extends React.Component {
       // key: 'action',
       render: (text, record) => (
         <span>
-          {/* <AlgorithmInstanceModal record={record} onOk={editHandler.bind(null, record.pkId)}>*/}
-          <a>修改</a>
-          {/* </AlgorithmInstanceModal>*/}
+          <ChannelModal record={record} onOk={editHandler.bind(null, record.pkId)}>
+            <a>修改</a>
+          </ChannelModal>
         </span>
       ),
     }
   ]
-  render() {
-    const { list, total, pageIndex, loading } = this.props;
-    return (
-      <div>
-        <Table
-          columns={this.columns}
-          dataSource={list}
-          bordered
-          size="middle"
-          rowKey={record => record.id}
-          loading={loading}
-          pagination={false}
-        />
-        <Pagination
-          className="ant-table-pagination"
-          total={total}
-          current={pageIndex}
-          pageSize={PAGE_SIZE}
-          onChange={this.pageChangeHandler.bind(this)}
-        />
-      </div>
-    );
-  }
+
+
+  return (
+    <div>
+      <ChannelListFilter {...filterProps} />
+      <Table
+        columns={columns}
+        dataSource={list}
+        bordered
+        rowKey={record => record.id}
+        loading={loading}
+        pagination={false}
+      />
+      <Pagination
+        className="ant-table-pagination"
+        total={total}
+        current={pageIndex}
+        pageSize={PAGE_SIZE}
+        onChange={pageChangeHandler}
+        defaultCurrent={1}
+      />
+    </div>
+  );
 }
 
 function mapStateToProps(state) {

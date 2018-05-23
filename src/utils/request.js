@@ -51,7 +51,6 @@ function checkStatus(response) {
 }
 
 function responseInterceptor({ data, code, msg }) {
-  debugger;
   if (code === 1) {
     return data;
   }

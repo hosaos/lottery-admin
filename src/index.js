@@ -1,5 +1,5 @@
 import dva from 'dva';
-import createHistory from 'history/createBrowserHistory'
+import createHistory from 'history/createHashHistory'
 import { message } from 'antd';
 import './index.less';
 

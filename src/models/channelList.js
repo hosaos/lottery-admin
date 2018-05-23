@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import channelListService from '../services/channelListService'
 
 export default {
@@ -14,14 +15,19 @@ export default {
     },
   },
   effects: {
-    *get({ payload: { pageIndex, pageSize } }, { call, put }) {
+    *reload(action, { put, select }) {
+      debugger;
+      const pageIndex = yield select(state => state.channelList.pageIndex);
+      yield put({ type: 'get', payload: { pageIndex } });
+    },
+    *get({ payload: { pageIndex, channelName } }, { call, put }) {
       yield put({
         type: 'save',
         payload: {
           loading: true,
         },
       });
-      const res = yield call(channelListService.getList, { pageIndex, pageSize });
+      const res = yield call(channelListService.getList, { pageIndex, channelName });
       yield put({
         type: 'save',
         payload: {
@@ -31,17 +37,23 @@ export default {
           loading: false
         },
       });
-    }
+    },
+    *edit({ payload: { pkId, values } }, { call, put }) {
+      debugger;
+      yield call(channelListService.edit, pkId, values);
+      yield put({ type: 'reload' });
+      message.success("保存成功");
+    },
   },
-  // subscriptions: {
-  //   setup({ dispatch, history }) {
-  //     return history.listen(({ pathname, query }) => {
-  //       if (pathname === '/channels') {
-  //         debugger;
-  //         dispatch({ type: 'get', payload: query });
-  //       }
-  //     });
-  //   },
-  //
-  // },
+  subscriptions: {
+    setup({ dispatch, history }) {
+      return history.listen(({ pathname, query }) => {
+        debugger;
+        const payload = query || { pageIndex: 1, pageSize: 2 }
+        if (pathname === '/channels') {
+          dispatch({ type: 'get', payload });
+        }
+      });
+    },
+  },
 }
