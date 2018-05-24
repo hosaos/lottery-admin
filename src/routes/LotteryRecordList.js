@@ -1,15 +1,13 @@
 import React from 'react';
 import { connect } from 'dva';
-import { withRouter }  from 'dva/router';
+import { withRouter } from 'dva/router';
 import { Table, Pagination, Button, Divider } from 'antd'
 import { PAGE_SIZE } from '../utils/constant'
-import ChannelListFilter from './ChannelListFilter'
-import ChannelModal from '../components/ChannelModal'
-import QrCodeModal from '../components/QrCodeModal'
+import LotteryListRecordFilter from './LotteryListRecordFilter'
 
 let filterValue = {};
 // class ChannelList extends React.Component {
-const ChannelList = ({
+const LotteryRecordList = ({
                 location, dispatch, loading, list, pageIndex, total
               }) => {
   // location.query = queryString.parse(location.search)
@@ -38,80 +36,50 @@ const ChannelList = ({
 
   const handleRefresh = (query) => {
     dispatch({
-      type: 'channelList/get',
+      type: 'lotteryRecordList/get',
       payload: query,
     })
-    // dispatch(Router.push({
-    //   pathname: '/channels',
-    //   query,
-    // }));
   };
-
-  const editHandler = (pkId, values) => {
-    dispatch({
-      type: 'channelList/edit',
-      payload: { pkId, values },
-    });
-  }
   function createHandler(values, cb) {
-    debugger;
     dispatch({
-      type: 'channelList/create',
+      type: 'lotteryRecordList/create',
       payload: { values, cb }
     });
   }
   const columns = [
     {
-      title: '渠道id',
-      dataIndex: 'id',
-    },
-    {
-      title: '渠道名称',
-      dataIndex: 'channelName',
-    },
-    {
-      title: '二维码',
-      dataIndex: 'qrCode',
+      title: '票号信息',
       render: (text, record) => (
-        <span>
-          <QrCodeModal record={record}>
-            <a>查看</a>
-          </QrCodeModal>
-        </span>
+        <div>
+          {record.start} - {record.end}
+        </div>
       ),
     },
     {
-      title: '推广链接',
-      dataIndex: 'referralInk',
+      title: '彩票类型',
+      dataIndex: 'lotteryTypeName',
     },
     {
-      title: '渠道用户数',
-      dataIndex: 'userNum',
+      title: '张数',
+      dataIndex: 'number',
+    },
+    {
+      title: '归属窗口',
+      dataIndex: 'lotteryWindowName',
+    },
+    {
+      title: '操作人',
+      dataIndex: 'userName',
     },
     {
       title: '创建时间',
       dataIndex: 'createdAt',
     },
-    {
-      title: "操作",
-      // key: 'action',
-      render: (text, record) => (
-        <span>
-          <ChannelModal record={record} onOk={editHandler.bind(null, record.pkId)}>
-            <a>修改</a>
-          </ChannelModal>
-          <Divider type="vertical" />
-          <ChannelModal record={record} onOk={editHandler.bind(null, record.pkId)}>
-            <a>明细</a>
-          </ChannelModal>
-        </span>
-      ),
-    }
   ]
 
   return (
     <div>
-      <ChannelListFilter {...filterProps} />
+      <LotteryListRecordFilter {...filterProps} />
       <Table
         columns={columns}
         dataSource={list}
@@ -133,7 +101,7 @@ const ChannelList = ({
 }
 
 function mapStateToProps(state) {
-  const { list, total, pageIndex, loading } = state.channelList;
+  const { list, total, pageIndex, loading } = state.lotteryRecordList;
   return {
     list,
     total,
@@ -142,4 +110,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default withRouter(connect(mapStateToProps)(ChannelList));
+export default withRouter(connect(mapStateToProps)(LotteryRecordList));

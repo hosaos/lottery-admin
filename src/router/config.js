@@ -1,5 +1,5 @@
 // 仅用于生成菜单及相关路由, 不含Content内部嵌套
-import { NotFound, DashBoard, List, ChannelList, Ordinary, ChartsEG, Protected } from "../routes";
+import { NotFound, DashBoard, ChannelList, LotteryRecordList, Ordinary, ChartsEG, Protected } from "../routes";
 import Detail from '../components/Detail'
 
 export default [
@@ -11,10 +11,10 @@ export default [
     strict: true, // 其他可以被无损转发到Route, Menu.Item的prop
   },
   {
-    path: '/list',
-    title: '路由嵌套示例',
+    path: '/lotteryRecords',
+    title: '彩票录入管理',
     icon: 'bars',
-    component: List,
+    component: LotteryRecordList,
   },
   {
     path: '/channels',

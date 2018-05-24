@@ -9,7 +9,7 @@ import QrCodeModal from '../components/QrCodeModal'
 
 let filterValue = {};
 // class ChannelList extends React.Component {
-const ChannelList = ({
+const LotteryList = ({
                 location, dispatch, loading, list, pageIndex, total
               }) => {
   // location.query = queryString.parse(location.search)
@@ -65,48 +65,6 @@ const ChannelList = ({
       title: '渠道id',
       dataIndex: 'id',
     },
-    {
-      title: '渠道名称',
-      dataIndex: 'channelName',
-    },
-    {
-      title: '二维码',
-      dataIndex: 'qrCode',
-      render: (text, record) => (
-        <span>
-          <QrCodeModal record={record}>
-            <a>查看</a>
-          </QrCodeModal>
-        </span>
-      ),
-    },
-    {
-      title: '推广链接',
-      dataIndex: 'referralInk',
-    },
-    {
-      title: '渠道用户数',
-      dataIndex: 'userNum',
-    },
-    {
-      title: '创建时间',
-      dataIndex: 'createdAt',
-    },
-    {
-      title: "操作",
-      // key: 'action',
-      render: (text, record) => (
-        <span>
-          <ChannelModal record={record} onOk={editHandler.bind(null, record.pkId)}>
-            <a>修改</a>
-          </ChannelModal>
-          <Divider type="vertical" />
-          <ChannelModal record={record} onOk={editHandler.bind(null, record.pkId)}>
-            <a>明细</a>
-          </ChannelModal>
-        </span>
-      ),
-    }
   ]
 
   return (
@@ -142,4 +100,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default withRouter(connect(mapStateToProps)(ChannelList));
+export default withRouter(connect(mapStateToProps)(LotteryList));
