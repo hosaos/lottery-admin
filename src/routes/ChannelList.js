@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { withRouter } from 'dva/router';
-import { Table, Pagination, Button } from 'antd'
+import { Table, Pagination, Button, Divider } from 'antd'
 import { PAGE_SIZE } from '../utils/constant'
 import ChannelListFilter from './ChannelListFilter'
 import ChannelModal from '../components/ChannelModal'
@@ -23,8 +23,8 @@ const ChannelList = ({
         pageIndex: 1,
       })
     },
-    onCreate(value) {
-      createHandler(value);
+    onCreate(value, cb) {
+      createHandler(value, cb);
     },
   }
 
@@ -49,6 +49,7 @@ const ChannelList = ({
     });
   }
   function createHandler(values, cb) {
+    debugger;
     dispatch({
       type: 'channelList/create',
       payload: { values, cb }
@@ -93,6 +94,10 @@ const ChannelList = ({
         <span>
           <ChannelModal record={record} onOk={editHandler.bind(null, record.pkId)}>
             <a>修改</a>
+          </ChannelModal>
+          <Divider type="vertical" />
+          <ChannelModal record={record} onOk={editHandler.bind(null, record.pkId)}>
+            <a>明细</a>
           </ChannelModal>
         </span>
       ),

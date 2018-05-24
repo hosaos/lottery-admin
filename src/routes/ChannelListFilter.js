@@ -56,7 +56,7 @@ const ChannelListFilter = ({
     handleSubmit()
   }
   const create = (values, cb) => {
-    console.log(values);
+    debugger;
     onCreate(values, cb)
   }
 

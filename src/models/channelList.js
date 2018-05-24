@@ -45,15 +45,15 @@ export default {
       });
     },
     *edit({ payload: { pkId, values } }, { call, put }) {
-      debugger;
       yield call(channelListService.edit, pkId, values);
       yield put({ type: 'reload' });
       message.success("保存成功");
     },
-    *create({ payload: { values,cb } }, { call, put }) {
+    *create({ payload: { values, cb } }, { call, put }) {
       yield call(channelListService.create, values);
       yield put({ type: 'reload' });
       message.success("保存成功");
+      cb();
     },
   },
   subscriptions: {
