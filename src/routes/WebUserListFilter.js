@@ -3,6 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FilterItem } from 'components'
 import { Form, Button, Row, Col, DatePicker, Input } from 'antd'
+import ChannelModal from '../components/ChannelModal'
 
 
 const { Search } = Input
@@ -17,6 +18,7 @@ const ColProps = {
 }
 
 const ChannelListFilter = ({
+  onCreate,
   onFilterChange,
   filter,
   form: {
@@ -53,14 +55,15 @@ const ChannelListFilter = ({
     setFieldsValue(fields)
     handleSubmit()
   }
+  const create = (values, cb) => {
+    debugger;
+    onCreate(values, cb)
+  }
 
   return (
     <Row gutter={24}>
       <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }}>
-        {getFieldDecorator('mobile')(<Search placeholder="手机号" onSearch={handleSubmit} />)}
-      </Col>
-      <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }}>
-        {getFieldDecorator('channelName')(<Search placeholder="来源渠道" onSearch={handleSubmit} />)}
+        {getFieldDecorator('channelName')(<Search placeholder="渠道名称" onSearch={handleSubmit} />)}
       </Col>
       <Col >
         <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
@@ -68,6 +71,11 @@ const ChannelListFilter = ({
             <Button type="primary" className="margin-right" style={{ marginRight: '10' }} onClick={handleSubmit}>查询</Button>
             <Button onClick={handleReset}>重置</Button>
           </div>
+          <ChannelModal record={{}} onOk={create}>
+            <div className="flex-vertical-center" style={{ textAlign: 'center' }}>
+              <Button type="primary">添加员工</Button>
+            </div>
+          </ChannelModal>
         </div>
       </Col>
     </Row>

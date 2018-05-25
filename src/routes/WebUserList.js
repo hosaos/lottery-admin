@@ -3,11 +3,12 @@ import { connect } from 'dva';
 import { withRouter } from 'dva/router';
 import { Table, Pagination, Button, Divider } from 'antd'
 import { PAGE_SIZE } from '../utils/constant'
-import AppUserListFilter from './AppUserListFilter'
+import WebUserListFilter from './WebUserListFilter'
+import WebUserModal from '../components/WebUserModal'
 
 let filterValue = {};
-// class AppUserList extends React.Component {
-const AppUserList = ({
+// class WebUserList extends React.Component {
+const WebUserList = ({
                 location, dispatch, loading, list, pageIndex, total
               }) => {
   // location.query = queryString.parse(location.search)
@@ -17,11 +18,13 @@ const AppUserList = ({
     },
     onFilterChange(value) {
       filterValue = value;
-      console.log(value);
       handleRefresh({
         ...value,
         pageIndex: 1,
       })
+    },
+    onCreate(value, cb) {
+      createHandler(value, cb);
     },
   }
 
@@ -34,46 +37,46 @@ const AppUserList = ({
 
   const handleRefresh = (query) => {
     dispatch({
-      type: 'appUserList/get',
+      type: 'webUserList/get',
       payload: query,
     })
   };
+
+  const editHandler = (pkId, values) => {
+    dispatch({
+      type: 'webUserList/edit',
+      payload: { pkId, values },
+    });
+  }
+  function createHandler(values, cb) {
+    dispatch({
+      type: 'webUserList/create',
+      payload: { values, cb }
+    });
+  }
   const columns = [
     {
       title: '用户id',
       dataIndex: 'id',
     },
     {
-      title: '手机号',
-      dataIndex: 'mobile',
-    },
-    {
-      title: '性别',
-      dataIndex: 'sex',
+      title: "操作",
+      // key: 'action',
       render: (text, record) => (
-        <label>{record.sex === 'MEN' ? '男' : '女'}</label>
+        <span>
+          <WebUserModal record={record} onOk={editHandler.bind(null, record.id)}>
+            <a>修改权限</a>
+          </WebUserModal>
+          <Divider type="vertical" />
+          <a>重置密码</a>
+        </span>
       ),
-    },
-    {
-      title: '来源渠道',
-      dataIndex: 'channelName',
-    },
-    {
-      title: '注册时间',
-      dataIndex: 'createdAt',
-    },
-    {
-      title: '账户余额',
-      dataIndex: 'accountBalance',
-      render: (text, record) => (
-        <label>{`${record.accountBalance / 100} 元`}</label>
-      ),
-    },
+    }
   ]
 
   return (
     <div>
-      <AppUserListFilter {...filterProps} />
+      <WebUserListFilter {...filterProps} />
       <Table
         columns={columns}
         dataSource={list}
@@ -95,7 +98,7 @@ const AppUserList = ({
 }
 
 function mapStateToProps(state) {
-  const { list, total, pageIndex, loading } = state.appUserList;
+  const { list, total, pageIndex, loading } = state.webUserList;
   return {
     list,
     total,
@@ -104,4 +107,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default withRouter(connect(mapStateToProps)(AppUserList));
+export default withRouter(connect(mapStateToProps)(WebUserList));

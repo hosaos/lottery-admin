@@ -62,7 +62,7 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
-        const payload = query || { pageIndex: 1, pageSize: 2 }
+        const payload = query || { pageIndex: 1, pageSize: 15 }
         if (pathname === '/lotteryRecords') {
           dispatch({ type: 'get', payload });
         }

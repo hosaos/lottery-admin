@@ -22,18 +22,17 @@ export default {
   },
   effects: {
     *reload(action, { put, select }) {
-      debugger;
       const pageIndex = yield select(state => state.appUserList.pageIndex);
       yield put({ type: 'get', payload: { pageIndex } });
     },
-    *get({ payload: { pageIndex, mobile } }, { call, put }) {
+    *get({ payload: { pageIndex, mobile, channelName } }, { call, put }) {
       yield put({
         type: 'save',
         payload: {
           loading: true,
         },
       });
-      const res = yield call(appUserListService.getList, { pageIndex, mobile });
+      const res = yield call(appUserListService.getList, { pageIndex, mobile, channelName });
       yield put({
         type: 'save',
         payload: {
@@ -48,7 +47,7 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
-        const payload = query || { pageIndex: 1, pageSize: 2 }
+        const payload = query || { pageIndex: 1, pageSize: 15 }
         if (pathname === '/appUsers') {
           dispatch({ type: 'get', payload });
         }

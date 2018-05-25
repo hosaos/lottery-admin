@@ -1,5 +1,5 @@
 // 仅用于生成菜单及相关路由, 不含Content内部嵌套
-import { NotFound, DashBoard, ChannelList, LotteryRecordList, AppUserList, Ordinary, ChartsEG, Protected } from "../routes";
+import { NotFound, DashBoard, ChannelList, LotteryRecordList, AppUserList, WebUserList, Ordinary, ChartsEG, Protected } from "../routes";
 
 export default [
   {
@@ -10,22 +10,34 @@ export default [
     strict: true, // 其他可以被无损转发到Route, Menu.Item的prop
   },
   {
-    path: '/appUsers',
-    title: '用户管理',
-    icon: 'bars',
-    component: AppUserList,
-  },
-  {
     path: '/lotteryRecords',
     title: '彩票录入管理',
     icon: 'bars',
     component: LotteryRecordList,
   },
   {
-    path: '/channels',
-    title: '渠道列表',
-    icon: 'bars',
-    component: ChannelList,
+    title: '后台管理',
+    icon: 'appstore-o',
+    subRoutes: [
+      {
+        path: '/channels',
+        title: '渠道列表',
+        icon: 'bars',
+        component: ChannelList,
+      },
+      {
+        path: '/appUsers',
+        title: '用户管理',
+        icon: 'bars',
+        component: AppUserList,
+      },
+      {
+        path: '/webUsers',
+        title: '员工管理',
+        icon: 'bars',
+        component: WebUserList,
+      },
+    ]
   },
   {
     path: '/dev',
@@ -34,12 +46,6 @@ export default [
     roles: ['dev'],
     component: Protected,
   },
-/*  {
-    path: '/charts',
-    title: '图表',
-    icon: 'area-chart',
-    component: ChartsEG,
-  },*/
   {
     path: '/qaui',
     title: '权限qa,ui',

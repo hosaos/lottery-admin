@@ -1,8 +1,8 @@
 import { message } from 'antd';
-import channelListService from '../services/channelListService'
+import webUserListService from '../services/webUserListService'
 
 export default {
-  namespace: 'channelList',
+  namespace: 'webUserList',
   state: {
     list: [],
     total: null,
@@ -23,17 +23,18 @@ export default {
   effects: {
     *reload(action, { put, select }) {
       debugger;
-      const pageIndex = yield select(state => state.channelList.pageIndex);
+      const pageIndex = yield select(state => state.webUserList.pageIndex);
       yield put({ type: 'get', payload: { pageIndex } });
     },
-    *get({ payload: { pageIndex, channelName } }, { call, put }) {
+    *get({ payload: { pageIndex, webUserName } }, { call, put }) {
       yield put({
         type: 'save',
         payload: {
           loading: true,
         },
       });
-      const res = yield call(channelListService.getList, { pageIndex, channelName });
+      debugger;
+      const res = yield call(webUserListService.getList, { pageIndex, webUserName });
       yield put({
         type: 'save',
         payload: {
@@ -45,12 +46,12 @@ export default {
       });
     },
     *edit({ payload: { pkId, values } }, { call, put }) {
-      yield call(channelListService.edit, pkId, values);
+      yield call(webUserListService.edit, pkId, values);
       yield put({ type: 'reload' });
       message.success("保存成功");
     },
     *create({ payload: { values, cb } }, { call, put }) {
-      yield call(channelListService.create, values);
+      yield call(webUserListService.create, values);
       yield put({ type: 'reload' });
       message.success("保存成功");
       cb();
@@ -60,7 +61,7 @@ export default {
     setup({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
         const payload = query || { pageIndex: 1, pageSize: 15 }
-        if (pathname === '/channels') {
+        if (pathname === '/webUsers') {
           dispatch({ type: 'get', payload });
         }
       });
