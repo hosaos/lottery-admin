@@ -21,6 +21,11 @@ export default {
       data: values,
     });
   },
+  getLotteryType() {
+    return request('/lottery/type/list', {
+      method: 'get',
+    });
+  },
   getDetail(account) {
     return request(`/getDetail?account=${account}`)
   }

@@ -37,7 +37,7 @@ class LotteryModal extends Component {
     });
   };
 
-  onChange = () => {
+  onInputChange = () => {
     const number = document.getElementById('number').value;
     const start = document.getElementById('start').value;
     if (number && start) {
@@ -45,6 +45,17 @@ class LotteryModal extends Component {
       this.props.form.setFieldsValue({ end });
     }
   };
+
+  onTypeChange = (value) => {
+    console.log(value);
+    this.props.form.setFieldsValue({ lotteryTypeId: value });
+  }
+
+  onWindowChange = (value) => {
+    console.log(value);
+    this.props.form.setFieldsValue({ lotteryWindowId: value });
+  }
+
   render() {
     const { children } = this.props;
     const { getFieldDecorator } = this.props.form;
@@ -70,9 +81,9 @@ class LotteryModal extends Component {
               label="彩票类型"
             >
               {
-                getFieldDecorator('saveType', {
-                  rules: [{ required: true }],
-                })(<Selector />)
+                getFieldDecorator('lotteryTypeId', {
+                  rules: [{ required: true, message: '请选择彩票类型!' }],
+                })(<Selector handleChangeSelect={this.onTypeChange.bind(this)} />)
               }
             </FormItem>
             <FormItem
@@ -80,9 +91,9 @@ class LotteryModal extends Component {
               label="归属窗口"
             >
               {
-                getFieldDecorator('saveType', {
-                  rules: [{ required: true }],
-                })(<Selector />)
+                getFieldDecorator('lotteryWindowId', {
+                  rules: [{ required: true, message: '请选择归属窗口!' }],
+                })(<Selector handleChangeSelect={this.onWindowChange.bind(this)} />)
               }
             </FormItem>
             <FormItem
@@ -92,7 +103,7 @@ class LotteryModal extends Component {
               {
                 getFieldDecorator('number', {
                   rules: [{ required: true, message: '请输入1-9999的数值!', pattern: '^\\+?[1-9][0-9]*$', max: 4 }],
-                })(<Input id="number" onChange={this.onChange.bind(this)} />)
+                })(<Input id="number" onChange={this.onInputChange.bind(this)} />)
               }
             </FormItem>
             <FormItem
@@ -102,7 +113,7 @@ class LotteryModal extends Component {
               {
                 getFieldDecorator('start', {
                   rules: [{ required: true, message: '请输入起始票号(数值)!', pattern: '^\\+?[1-9][0-9]*$' }],
-                })(<Input id="start" onChange={this.onChange.bind(this)} />)
+                })(<Input id="start" onChange={this.onInputChange.bind(this)} />)
               }
             </FormItem>
             <FormItem
