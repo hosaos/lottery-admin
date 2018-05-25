@@ -63,7 +63,7 @@ const ChannelListFilter = ({
   return (
     <Row gutter={24}>
       <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }}>
-        {getFieldDecorator('channelName')(<Search placeholder="渠道名称" onSearch={handleSubmit} />)}
+        {getFieldDecorator('fullName')(<Search placeholder="员工姓名" onSearch={handleSubmit} />)}
       </Col>
       <Col >
         <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>

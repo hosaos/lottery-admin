@@ -26,15 +26,14 @@ export default {
       const pageIndex = yield select(state => state.webUserList.pageIndex);
       yield put({ type: 'get', payload: { pageIndex } });
     },
-    *get({ payload: { pageIndex, webUserName } }, { call, put }) {
+    *get({ payload: { pageIndex, fullName } }, { call, put }) {
       yield put({
         type: 'save',
         payload: {
           loading: true,
         },
       });
-      debugger;
-      const res = yield call(webUserListService.getList, { pageIndex, webUserName });
+      const res = yield call(webUserListService.getList, { pageIndex, fullName });
       yield put({
         type: 'save',
         payload: {
