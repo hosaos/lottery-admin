@@ -54,10 +54,10 @@ export default {
       message.success("保存成功");
       cb();
     },
-    *getLotteryType({ payload: { cb } }, { call }) {
-      const { data } = yield call(lotteryRecordListService.getLotteryType);
-      cb(data);
-    },
+    // *getLotteryType({ payload: { cb } }, { call }) {
+    //   const { data } = yield call(lotteryRecordListService.getLotteryType);
+    //   cb(data);
+    // },
   },
   subscriptions: {
     setup({ dispatch, history }) {

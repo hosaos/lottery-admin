@@ -7,7 +7,7 @@ export default class Selector extends Component {
     data: [],
   };
   componentDidMount() {
-    const data = [{ id: 1, name: 'bbb' }, { id: 2, name: 'ccc' }]
+    const data = this.props.data;
     this.setState({
       data
     });

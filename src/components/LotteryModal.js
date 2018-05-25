@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Form, Input, Select } from 'antd';
 import Selector from './Selector'
+import request from '../utils/request';
 
 const FormItem = Form.Item;
 class LotteryModal extends Component {
@@ -9,6 +10,8 @@ class LotteryModal extends Component {
     super(props);
     this.state = {
       visible: false,
+      typeList: [],
+      windowList: []
     };
   }
   showModelHandler = (e) => {
@@ -17,8 +20,23 @@ class LotteryModal extends Component {
     this.setState({
       visible: true,
     });
+    // 请求typelist
+    request('/lottery/type/list', {
+      method: 'get',
+    }).then((result) => {
+      this.handleTypeList(result);
+    }).catch((reason) => {
+      console.log(`失败：${reason}`);
+    });
+    // 请求windowlist
+    request('/lottery/window/list', {
+      method: 'get',
+    }).then((result) => {
+      this.handleWindowList(result);
+    }).catch((reason) => {
+      console.log(`失败：${reason}`);
+    });
   };
-
   hideModelHandler = () => {
     this.setState({
       visible: false,
@@ -32,6 +50,11 @@ class LotteryModal extends Component {
         const cb = () => {
           this.hideModelHandler();
         }
+        const typeId = values.lotteryTypeId;
+        const windowId = values.lotteryWindowId;
+        this.state.typeList.map(d =>  d.id === typeId ? values.lotteryTypeName = d.name : "");
+        this.state.windowList.map(d => d.id === windowId ? values.lotteryWindowName = d.name : "");
+        console.log(values);
         onOk(values, cb);
       }
     });
@@ -47,15 +70,28 @@ class LotteryModal extends Component {
   };
 
   onTypeChange = (value) => {
-    console.log(value);
     this.props.form.setFieldsValue({ lotteryTypeId: value });
   }
 
   onWindowChange = (value) => {
-    console.log(value);
     this.props.form.setFieldsValue({ lotteryWindowId: value });
   }
 
+  handleTypeList = (data) => {
+    const typeList = this.state.typeList;
+    data.rows.map(d => typeList.push({ id: d.id, name: d.name }));
+    this.setState({
+      typeList,
+    })
+  };
+
+  handleWindowList = (data) => {
+    const windowList = this.state.windowList;
+    data.rows.map(d => windowList.push({ id: d.id, name: d.windowName }));
+    this.setState({
+      windowList,
+    })
+  };
   render() {
     const { children } = this.props;
     const { getFieldDecorator } = this.props.form;
@@ -83,7 +119,10 @@ class LotteryModal extends Component {
               {
                 getFieldDecorator('lotteryTypeId', {
                   rules: [{ required: true, message: '请选择彩票类型!' }],
-                })(<Selector handleChangeSelect={this.onTypeChange.bind(this)} />)
+                })(<Selector
+                  data={this.state.typeList}
+                  handleChangeSelect={this.onTypeChange.bind(this)}
+                />)
               }
             </FormItem>
             <FormItem
@@ -93,7 +132,10 @@ class LotteryModal extends Component {
               {
                 getFieldDecorator('lotteryWindowId', {
                   rules: [{ required: true, message: '请选择归属窗口!' }],
-                })(<Selector handleChangeSelect={this.onWindowChange.bind(this)} />)
+                })(<Selector
+                  data={this.state.windowList}
+                  handleChangeSelect={this.onWindowChange.bind(this)}
+                />)
               }
             </FormItem>
             <FormItem

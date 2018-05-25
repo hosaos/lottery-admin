@@ -42,7 +42,7 @@ class ChannelModal extends Component {
   render() {
     const { children } = this.props;
     const { getFieldDecorator } = this.props.form;
-    const {  id, pkId, channelName } = this.props.record;
+    const { id, channelName } = this.props.record;
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 },
@@ -67,17 +67,7 @@ class ChannelModal extends Component {
               {
                 getFieldDecorator('id', {
                   initialValue: id,
-                })(<Input disabled={true} />)
-              }
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="pkId"
-            >
-              {
-                getFieldDecorator('pkId', {
-                  initialValue: pkId,
-                })(<Input disabled={true} />)
+                })(<Input disabled />)
               }
             </FormItem>
             <FormItem

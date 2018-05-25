@@ -46,6 +46,8 @@ const LotteryRecordList = ({
       payload: { values, cb }
     });
   }
+
+
   const columns = [
     {
       title: '票号信息',
