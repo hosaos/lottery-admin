@@ -13,8 +13,10 @@ const app = dva({
 
 app.model(require("./models/login"));
 app.model(require("./models/list"));
+app.model(require("./models/appUserList"));
 app.model(require("./models/channelList"));
 app.model(require("./models/lotteryRecordList"));
+
 
 // Router
 app.router(require('./router'));

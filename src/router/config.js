@@ -1,6 +1,5 @@
 // 仅用于生成菜单及相关路由, 不含Content内部嵌套
-import { NotFound, DashBoard, ChannelList, LotteryRecordList, Ordinary, ChartsEG, Protected } from "../routes";
-import Detail from '../components/Detail'
+import { NotFound, DashBoard, ChannelList, LotteryRecordList, AppUserList, Ordinary, ChartsEG, Protected } from "../routes";
 
 export default [
   {
@@ -9,6 +8,12 @@ export default [
     icon: 'dashboard', // 菜单图标
     component: DashBoard, // 路由component
     strict: true, // 其他可以被无损转发到Route, Menu.Item的prop
+  },
+  {
+    path: '/appUsers',
+    title: '用户管理',
+    icon: 'bars',
+    component: AppUserList,
   },
   {
     path: '/lotteryRecords',
