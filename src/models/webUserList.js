@@ -55,6 +55,13 @@ export default {
       message.success("保存成功");
       cb();
     },
+
+    *resetPassword({ payload: { values } }, { call, put }) {
+      console.log(values);
+      yield call(webUserListService.resetPassword, values);
+      // yield put({ type: 'reload' });
+      message.success("操作成功");
+    },
   },
   subscriptions: {
     setup({ dispatch, history }) {

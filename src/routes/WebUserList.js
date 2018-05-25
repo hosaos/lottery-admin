@@ -56,8 +56,8 @@ const WebUserList = ({
   }
   function resetPasswordHandler(values) {
     dispatch({
-      type: 'webUserList/create',
-      payload: { values}
+      type: 'webUserList/resetPassword',
+      payload: { values }
     });
   }
   const columns = [
@@ -90,7 +90,7 @@ const WebUserList = ({
             <a>修改权限</a>
           </WebUserModal>
           <Divider type="vertical" />
-          <Popconfirm title="确定重置密码?" placement="right" onConfirm={resetPasswordHandler.bind(null, record.id)}>
+          <Popconfirm title="确认将密码重置为:123456 ?" placement="right" onConfirm={resetPasswordHandler.bind(null, record.id)}>
             <a href="">重置密码</a>
           </Popconfirm>
         </span>

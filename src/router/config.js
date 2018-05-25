@@ -18,6 +18,7 @@ export default [
   {
     title: '后台管理',
     icon: 'appstore-o',
+    path: '/admin',
     subRoutes: [
       {
         path: '/channels',

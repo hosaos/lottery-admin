@@ -9,4 +9,10 @@ export default {
       data: params
     });
   },
+  resetPassword(values) {
+    console.log(values);
+    return request(`/user/resetPassword/${values}`, {
+      method: 'get',
+    });
+  },
 }
