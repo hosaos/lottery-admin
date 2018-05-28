@@ -20,6 +20,11 @@ export default {
           sExpires = "; expires=" + vEnd.toUTCString();
           break;
       }
+    }else {
+      let date = new Date();
+      //8小时过期
+      date.setTime(date.getTime()+(8*60*60*1000));
+      sExpires = "; expires="+date.toUTCString();
     }
     document.cookie = encodeURIComponent(sKey) + "=" + encodeURIComponent(sValue) + sExpires + (sDomain ? "; domain=" + sDomain : "") + (sPath ? "; path=" + sPath : "") + (bSecure ? "; secure" : "");
     return true;

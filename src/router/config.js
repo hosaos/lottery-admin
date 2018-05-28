@@ -14,29 +14,78 @@ export default [
     title: '彩票录入管理',
     icon: 'bars',
     component: LotteryRecordList,
+    roles: [1],
+  },
+  // todo
+  {
+    path: '/lotteryRelations',
+    title: '兑奖管理',
+    icon: 'bars',
+    component: Protected,
+    roles: [2],
   },
   {
     title: '后台管理',
     icon: 'appstore-o',
     path: '/admin',
     subRoutes: [
+      // todo
       {
-        path: '/channels',
-        title: '渠道列表',
+        path: '/list',
+        title: '数据概括',
         icon: 'bars',
         component: ChannelList,
+        roles: [3],
+      },
+      {
+        path: '/list1',
+        title: '结算管理',
+        icon: 'bars',
+        component: ChannelList,
+        roles: [4],
       },
       {
         path: '/appUsers',
         title: '用户管理',
         icon: 'bars',
         component: AppUserList,
+        roles: [5],
+      },
+      // todo
+      {
+        path: '/list2',
+        title: '中奖纪录',
+        icon: 'bars',
+        component: AppUserList,
+        roles: [6],
+      },
+      {
+        path: '/list3',
+        title: '订单管理',
+        icon: 'bars',
+        component: AppUserList,
+        roles: [7],
+      },
+      {
+        path: '/list4',
+        title: '提现管理',
+        icon: 'bars',
+        component: AppUserList,
+        roles: [8],
+      },
+      {
+        path: '/channels',
+        title: '渠道列表',
+        icon: 'bars',
+        component: ChannelList,
+        roles: [9],
       },
       {
         path: '/webUsers',
         title: '员工管理',
         icon: 'bars',
         component: WebUserList,
+        roles: [10],
       },
     ]
   },

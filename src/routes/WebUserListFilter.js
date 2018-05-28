@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FilterItem } from 'components'
 import { Form, Button, Row, Col, DatePicker, Input } from 'antd'
-import ChannelModal from '../components/ChannelModal'
+import WebUserModal from '../components/WebUserModal'
 
 
 const { Search } = Input
@@ -71,11 +71,11 @@ const ChannelListFilter = ({
             <Button type="primary" className="margin-right" style={{ marginRight: '10' }} onClick={handleSubmit}>查询</Button>
             <Button onClick={handleReset}>重置</Button>
           </div>
-          <ChannelModal record={{}} onOk={create}>
+          <WebUserModal record={{}} onOk={create}>
             <div className="flex-vertical-center" style={{ textAlign: 'center' }}>
               <Button type="primary">添加员工</Button>
             </div>
-          </ChannelModal>
+          </WebUserModal>
         </div>
       </Col>
     </Row>

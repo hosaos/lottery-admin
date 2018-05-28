@@ -1,8 +1,8 @@
 import request from '../utils/request';
 
 export function login(data) {
-  return request('/login', {
+  return request('/user/login', {
     method: 'POST',
-    body: JSON.stringify(data)
+    data
   });
 }

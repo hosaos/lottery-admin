@@ -3,7 +3,7 @@ import React from 'react';
 function Protected() {
   return (
     <div>
-      通过验证 !
+      开发中,权限验证通过 !
     </div>
   );
 }

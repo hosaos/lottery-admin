@@ -42,11 +42,11 @@ class Login extends React.Component {
         </ul>
         <Form onSubmit={this.handleSubmit}>
           <FormItem>
-            {getFieldDecorator('username', {
+            {getFieldDecorator('fullName', {
               initialValue: 'admin',
               rules: [{ required: true, message: 'Please input your username!' }]
             })(
-              <Input placeholder="username" />
+              <Input placeholder="fullName" />
               )}
           </FormItem>
           <FormItem>
