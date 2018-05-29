@@ -22,7 +22,6 @@ export default {
   effects: {
     *login({ payload }, { call, put }) {
       const { roles, token } = yield call(login, payload)
-      debugger;
       yield put({ type: 'save', payload: { roles, token } })
       Cookie.setItem('roles', JSON.stringify(roles))
       Cookie.setItem('token', token)

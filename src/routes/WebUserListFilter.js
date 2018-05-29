@@ -17,7 +17,7 @@ const ColProps = {
   },
 }
 
-const ChannelListFilter = ({
+const WebUserListFilter = ({
   onCreate,
   onFilterChange,
   filter,
@@ -56,7 +56,6 @@ const ChannelListFilter = ({
     handleSubmit()
   }
   const create = (values, cb) => {
-    debugger;
     onCreate(values, cb)
   }
 
@@ -82,11 +81,11 @@ const ChannelListFilter = ({
   )
 }
 
-ChannelListFilter.propTypes = {
+WebUserListFilter.propTypes = {
   onAdd: PropTypes.func,
   form: PropTypes.object,
   filter: PropTypes.object,
   onFilterChange: PropTypes.func,
 }
 
-export default Form.create()(ChannelListFilter)
+export default Form.create()(WebUserListFilter)

@@ -10,9 +10,20 @@ export default {
     });
   },
   resetPassword(values) {
-    console.log(values);
     return request(`/user/resetPassword/${values}`, {
       method: 'get',
+    });
+  },
+  create(values) {
+    return request('/user/save', {
+      method: 'POST',
+      data: values,
+    });
+  },
+  edit(values) {
+    return request('/user/edit', {
+      method: 'POST',
+      data: values,
     });
   },
 }

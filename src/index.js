@@ -7,7 +7,8 @@ import './index.less';
 const app = dva({
   history: createHistory(),
   onError(err) {
-    message.error(err.message)
+    const errorMsg = err.message;
+    message.error(errorMsg)
   }
 });
 

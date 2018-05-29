@@ -42,10 +42,10 @@ const WebUserList = ({
     })
   };
 
-  const editHandler = (pkId, values) => {
+  const editHandler = (id, values) => {
     dispatch({
       type: 'webUserList/edit',
-      payload: { pkId, values },
+      payload: { id, values },
     });
   }
   function createHandler(values, cb) {
@@ -86,7 +86,7 @@ const WebUserList = ({
       // key: 'action',
       render: (text, record) => (
         <span>
-          <WebUserModal record={record} onOk={editHandler.bind(null, record.pkId)}>
+          <WebUserModal record={record} onOk={editHandler.bind(null, record.id)}>
             <a>修改权限</a>
           </WebUserModal>
           <Divider type="vertical" />

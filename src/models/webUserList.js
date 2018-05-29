@@ -22,7 +22,6 @@ export default {
   },
   effects: {
     *reload(action, { put, select }) {
-      debugger;
       const pageIndex = yield select(state => state.webUserList.pageIndex);
       yield put({ type: 'get', payload: { pageIndex } });
     },
@@ -44,8 +43,8 @@ export default {
         },
       });
     },
-    *edit({ payload: { pkId, values } }, { call, put }) {
-      yield call(webUserListService.edit, pkId, values);
+    *edit({ payload: { id, values } }, { call, put }) {
+      yield call(webUserListService.edit, values);
       yield put({ type: 'reload' });
       message.success("保存成功");
     },

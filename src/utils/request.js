@@ -1,9 +1,11 @@
 import axios from 'axios';
 import { BASE_API, API_PREFIX } from './constant';
+import Cookie from './cookie';
 
 
 axios.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8';
-// axios.defaults.headers.common['Authorization'] = sessionStorage.getItem('Authorization')
+// axios.defaults.headers.post.token = Cookie.getItem('token');
+// axios.defaults.headers.common.Authorization = Cookie.getItem('token')
 
 const fetch = (url, options) => {
   const { method = 'get', data } = options;
@@ -50,11 +52,13 @@ function checkStatus(response) {
   throw error;
 }
 
-function responseInterceptor({ data, code, msg }) {
-  if (code === 1) {
+function responseInterceptor({ data, errCode, msg }) {
+  if (errCode === 0) {
     return data;
+  } else if (errCode === 1000) {
+    Cookie.removeItem('roles')
+    Cookie.removeItem('token')
   }
-
   throw new Error(msg);
   // return Promise.reject(new Error(message));
 }
