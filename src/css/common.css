@@ -1,0 +1,6 @@
+.Grid {
+  display: flex;
+}
+.GridCell {
+  flex: 1;
+}

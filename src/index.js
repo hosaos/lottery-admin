@@ -15,6 +15,8 @@ const app = dva({
 app.model(require("./models/login"));
 app.model(require("./models/list"));
 app.model(require("./models/appUserList"));
+app.model(require("./models/lotteryRelationList"));
+app.model(require("./models/lotteryOrderList"));
 app.model(require("./models/webUserList"));
 app.model(require("./models/channelList"));
 app.model(require("./models/lotteryRecordList"));
