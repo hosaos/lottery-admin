@@ -1,5 +1,6 @@
 // 仅用于生成菜单及相关路由, 不含Content内部嵌套
-import { NotFound, DashBoard, ChannelList, LotteryRecordList, LotteryOrderList, LotteryRelationList, AppUserList, WebUserList, Ordinary, ChartsEG, Protected } from "../routes";
+import { NotFound, DashBoard, ChannelList, LotteryRecordList, LotteryOrderList,
+  LotteryRelationList, AppUserList, WebUserList, WithDrawList , Protected } from "../routes";
 
 export default [
   {
@@ -67,10 +68,10 @@ export default [
         roles: [7],
       },
       {
-        path: '/list4',
+        path: '/withDraws',
         title: '提现管理',
         icon: 'bars',
-        component: Protected,
+        component: WithDrawList,
         roles: [8],
       },
       {

@@ -75,7 +75,7 @@ const LotteryOrderList = ({
       dataIndex: 'totalPrice',
       render: (text, record) => (
         <div>
-          {`${record.totalPrice / 1000}元`}
+          {`${record.totalPrice / 100}元`}
         </div>
       ),
     },
