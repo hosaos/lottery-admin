@@ -50,6 +50,10 @@ const LotteryRecordList = ({
 
   const columns = [
     {
+      title: 'id',
+      dataIndex: 'id',
+    },
+    {
       title: '票号信息',
       render: (text, record) => (
         <div>
