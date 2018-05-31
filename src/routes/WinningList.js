@@ -32,9 +32,6 @@ const WinningList = ({
   }
 
   const tableChangeHandler = (pagination, filters, sorter) => {
-    console.log(sorter);
-    console.log(sorter.field);
-    console.log(sorter.order);
     handleRefresh({
       sortField: sorter.field,
       sortOrder: sorter.order === 'descend' ? 'desc' : 'asc',
