@@ -1,6 +1,6 @@
 // 仅用于生成菜单及相关路由, 不含Content内部嵌套
-import { NotFound, DashBoard, ChannelList, LotteryRecordList, LotteryOrderList,
-  LotteryRelationList, AppUserList, WebUserList, WithDrawList , Protected } from "../routes";
+import { NotFound, DashBoard, ChannelList, SettlementList, LotteryRecordList, LotteryOrderList,
+  LotteryRelationList, AppUserList, WebUserList, WithDrawList, Protected } from "../routes";
 
 export default [
   {
@@ -38,9 +38,9 @@ export default [
         roles: [3],
       },
       {
-        path: '/list1',
+        path: '/settleMents',
         title: '结算管理',
-        component: Protected,
+        component: SettlementList,
         roles: [4],
       },
       {

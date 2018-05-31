@@ -6,6 +6,8 @@ import { Menus } from '../router/permission'
 import './MainLayout.less';
 
 const { Header, Sider, Content } = Layout
+const logoSrc = require('../assets/logo.png')
+
 
 class MainLayout extends React.Component {
   state = {
@@ -27,7 +29,8 @@ class MainLayout extends React.Component {
     });
   }
   render() {
-    const { children, dispatch, location: { pathname } } = this.props
+    const { children, dispatch, location: { pathname } } = this.props;
+
     // const pathSnippets = location.pathname.split('/').slice(1)
     // console.log(pathSnippets);
     return (
@@ -37,7 +40,9 @@ class MainLayout extends React.Component {
           collapsible
           collapsed={this.state.collapsed}
         >
-          <div className="logo" />
+          <div className="logo" >
+            {/*<img src={logoSrc} alt="logo" height={50} width={168} />*/}
+          </div>
           {/* todo 自动高亮(刷新,后退)&&面包屑 */}
           <Menus theme={this.state.theme} mode={this.state.mode} selectedKeys={[pathname]} />
         </Sider>

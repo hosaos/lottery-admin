@@ -21,6 +21,7 @@ app.model(require("./models/webUserList"));
 app.model(require("./models/channelList"));
 app.model(require("./models/withDrawListModel"));
 app.model(require("./models/lotteryRecordList"));
+app.model(require("./models/settleMentList"));
 
 
 // Router
