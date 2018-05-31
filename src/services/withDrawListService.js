@@ -3,7 +3,6 @@ import { PAGE_SIZE } from '../utils/constant'
 
 export default {
   getList({ pageIndex, userName }) {
-    debugger;
     const params = { pageIndex, pageSize: PAGE_SIZE, userName };
     return request('/withdraw/record/list', {
       method: 'get',
