@@ -8,11 +8,12 @@ export default {
     total: null,
     pageIndex: null,
     loading: false,
-    currentItem: {}
+    currentItem: {},
+    windowList: [],
   },
   reducers: {
-    save(state, { payload: { data: list, total, pageIndex, loading, currentItem } }) {
-      return { ...state, list, total, pageIndex, loading, currentItem };
+    save(state, { payload: { data: list, total, pageIndex, loading, currentItem, windowList } }) {
+      return { ...state, list, total, pageIndex, loading, currentItem, windowList };
     },
     showModal(state, { payload }) {
       return { ...state, ...payload, modalVisible: true }
@@ -26,22 +27,20 @@ export default {
       const pageIndex = yield select(state => state.lotteryRelationList.pageIndex);
       yield put({ type: 'get', payload: { pageIndex } });
     },
-    *get({ payload: { pageIndex, lotteryRelationName } }, { call, put }) {
-      yield put({
-        type: 'save',
-        payload: {
-          loading: true,
-        },
-      });
+    *get({ payload: { pageIndex, pageSize, lotteryWindowId } }, { call, put, select }) {
+      const currentItem = yield select(state => state.lotteryRelationList.currentItem);
+      const windowList = yield select(state => state.lotteryRelationList.windowList);
       const res = yield call(lotteryRelationListService.getList,
-        { pageIndex, lotteryRelationName });
+        { pageIndex, pageSize, lotteryWindowId });
       yield put({
         type: 'save',
         payload: {
           data: res.rows,
           total: res.records,
           pageIndex,
-          loading: false
+          loading: false,
+          currentItem,
+          windowList,
         },
       });
     },
@@ -60,6 +59,7 @@ export default {
       const list = yield select(state => state.lotteryRelationList.list);
       const total = yield select(state => state.lotteryRelationList.total);
       const pageIndex = yield select(state => state.lotteryRelationList.pageIndex);
+      const windowList = yield select(state => state.lotteryRelationList.windowList);
       yield put({
         type: 'save',
         payload: {
@@ -68,18 +68,27 @@ export default {
           total,
           pageIndex,
           loading: false,
+          windowList,
+        },
+      });
+    },
+    *setWindowList({ payload: { windowList } }, { put }) {
+      yield put({
+        type: 'save',
+        payload: {
+          windowList,
         },
       });
     },
   },
-  subscriptions: {
-    setup({ dispatch, history }) {
-      return history.listen(({ pathname, query }) => {
-        const payload = query || { pageIndex: 1, pageSize: 10 }
-        if (pathname === '/lotteryRelations') {
-          dispatch({ type: 'get', payload });
-        }
-      });
-    },
-  },
+  // subscriptions: {
+  //   setup({ dispatch, history }) {
+  //     return history.listen(({ pathname, query }) => {
+  //       const payload = query || { pageIndex: 1, pageSize: 10 }
+  //       if (pathname === '/lotteryRelations') {
+  //         dispatch({ type: 'get', payload });
+  //       }
+  //     });
+  //   },
+  // },
 }

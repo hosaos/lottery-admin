@@ -91,24 +91,6 @@ const LotteryOrderList = ({
       title: '中奖状态',
       dataIndex: 'bonusState',
     },
-    {
-      title: '支付类型',
-      dataIndex: 'payType',
-      render: (text, record) => (
-        <div>
-          {record.payType === 'ALIPAY' ? <label>支付宝</label> : record.payType === 'WEIXIN' ? <label>微信</label> : <label>余额</label>}
-        </div>
-      ),
-    },
-    {
-      title: '订单状态',
-      dataIndex: 'orderStatus',
-      render: (text, record) => (
-        <div>
-          {record.orderStatus === 'WAIT_TO_PAY' ? <label>待支付</label> : record.orderStatus === 'PAYED' ? <label>已支付</label> : <label>已关闭</label>}
-        </div>
-      ),
-    },
   ]
 
   return (

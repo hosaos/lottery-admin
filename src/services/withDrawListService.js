@@ -2,9 +2,10 @@ import request from '../utils/request';
 import { PAGE_SIZE } from '../utils/constant'
 
 export default {
-  getList({ pageIndex, channelName }) {
-    const params = { pageIndex, pageSize: PAGE_SIZE, channelName };
-    return request('/lottery/order/withDrawList', {
+  getList({ pageIndex, userName }) {
+    debugger;
+    const params = { pageIndex, pageSize: PAGE_SIZE, userName };
+    return request('/withdraw/record/list', {
       method: 'get',
       data: params
     });

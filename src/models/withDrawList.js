@@ -25,14 +25,14 @@ export default {
       const pageIndex = yield select(state => state.withDrawList.pageIndex);
       yield put({ type: 'get', payload: { pageIndex } });
     },
-    *get({ payload: { pageIndex, withDrawName } }, { call, put }) {
+    *get({ payload: { pageIndex, userName } }, { call, put }) {
       yield put({
         type: 'save',
         payload: {
           loading: true,
         },
       });
-      const res = yield call(withDrawListService.getList, { pageIndex, withDrawName });
+      const res = yield call(withDrawListService.getList, { pageIndex, userName });
       yield put({
         type: 'save',
         payload: {

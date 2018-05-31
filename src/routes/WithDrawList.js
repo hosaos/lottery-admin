@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { withRouter }  from 'dva/router';
+import { withRouter } from 'dva/router';
 import { Table, Pagination, Button, Divider } from 'antd'
 import { PAGE_SIZE } from '../utils/constant'
 import WithDrawListFilter from './WithDrawListFilter'
@@ -36,43 +36,57 @@ const WithDrawList = ({
       type: 'withDrawList/get',
       payload: query,
     })
-    // dispatch(Router.push({
-    //   pathname: '/withDraws',
-    //   query,
-    // }));
   };
   const columns = [
+    {
+      title: 'id',
+      dataIndex: 'id',
+    },
     {
       title: '用户id',
       dataIndex: 'userId',
     },
     {
       title: '用户名',
-      dataIndex: 'userName’',
-    },
-    {
-      title: '提现时间',
-      dataIndex: 'createdAt’',
+      dataIndex: 'userName',
     },
     {
       title: '提现金额',
-      dataIndex: 'money’',
+      dataIndex: 'money',
+      render: (text, record) => (
+        <div>
+          {`${record.money / 100}元`}
+        </div>
+      ),
+    },
+    {
+      title: '手续费',
+      dataIndex: 'fee',
+      render: (text, record) => (
+        <div>
+          { record.fee ? `${record.fee / 100}元` : "0元"}
+        </div>
+      ),
     },
     {
       title: '手机号',
-      dataIndex: 'mobile’',
+      dataIndex: 'mobile',
+    },
+    {
+      title: '银行名称',
+      dataIndex: 'bankName',
     },
     {
       title: '银行卡号',
-      dataIndex: 'cardNumber’',
+      dataIndex: 'cardNumber',
     },
     {
       title: '持卡人姓名',
-      dataIndex: 'holderName’',
+      dataIndex: 'holderName',
     },
     {
       title: '身份证',
-      dataIndex: 'identityCard’',
+      dataIndex: 'identityCard',
     },
   ]
 
