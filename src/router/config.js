@@ -1,5 +1,5 @@
 // 仅用于生成菜单及相关路由, 不含Content内部嵌套
-import { NotFound, DashBoard, ChannelList, SettlementList, LotteryRecordList, LotteryOrderList,
+import { NotFound, DashBoard, ChannelList, WinningList, SettlementList, LotteryRecordList, LotteryOrderList,
   LotteryRelationList, AppUserList, WebUserList, WithDrawList, Protected } from "../routes";
 
 export default [
@@ -51,9 +51,9 @@ export default [
       },
       // todo
       {
-        path: '/list2',
+        path: '/winnings',
         title: '中奖纪录',
-        component: Protected,
+        component: WinningList,
         roles: [6],
       },
       {

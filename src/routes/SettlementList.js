@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { withRouter } from 'dva/router';
-import { Table, Pagination, Button, Divider } from 'antd'
+import { Table, Pagination } from 'antd'
 import { PAGE_SIZE } from '../utils/constant'
 import SettleMentListFilter from './SettleMentListFilter'
 

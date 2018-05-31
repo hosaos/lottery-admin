@@ -22,6 +22,7 @@ app.model(require("./models/channelList"));
 app.model(require("./models/withDrawListModel"));
 app.model(require("./models/lotteryRecordList"));
 app.model(require("./models/settleMentList"));
+app.model(require("./models/winningList"));
 
 
 // Router

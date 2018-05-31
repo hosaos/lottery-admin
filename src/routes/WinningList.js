@@ -3,11 +3,11 @@ import { connect } from 'dva';
 import { withRouter } from 'dva/router';
 import { Table, Pagination } from 'antd'
 import { PAGE_SIZE } from '../utils/constant'
-import LotteryListRecordFilter from './LotteryListRecordFilter'
+import WinningListFilter from './WinningListFilter'
 
 let filterValue = {};
-// class ChannelList extends React.Component {
-const LotteryRecordList = ({
+// class WinningList extends React.Component {
+const WinningList = ({
                 location, dispatch, loading, list, pageIndex, total
               }) => {
   // location.query = queryString.parse(location.search)
@@ -22,9 +22,6 @@ const LotteryRecordList = ({
         pageIndex: 1,
       })
     },
-    onCreate(value, cb) {
-      createHandler(value, cb);
-    },
   }
 
   const pageChangeHandler = (page) => {
@@ -34,58 +31,58 @@ const LotteryRecordList = ({
     })
   }
 
+  const tableChangeHandler = (pagination, filters, sorter) => {
+    console.log(sorter);
+    console.log(sorter.field);
+    console.log(sorter.order);
+    handleRefresh({
+      sortField: sorter.field,
+      sortOrder: sorter.order === 'descend' ? 'desc' : 'asc',
+      pageIndex: 1
+    });
+  }
   const handleRefresh = (query) => {
     dispatch({
-      type: 'lotteryRecordList/get',
+      type: 'winningList/get',
       payload: query,
     })
   };
-  function createHandler(values, cb) {
-    dispatch({
-      type: 'lotteryRecordList/create',
-      payload: { values, cb }
-    });
-  }
-
-
   const columns = [
     {
-      title: 'id',
-      dataIndex: 'id',
+      title: '用户id',
+      dataIndex: 'userId',
+    },
+    {
+      title: '用户名称',
+      dataIndex: 'userName',
     },
     {
       title: '票号信息',
-      render: (text, record) => (
-        <div>
-          {record.start} - {record.end}
-        </div>
-      ),
+      dataIndex: 'ticketNumber',
     },
     {
       title: '彩票类型',
       dataIndex: 'lotteryTypeName',
     },
     {
-      title: '张数',
-      dataIndex: 'number',
+      title: '中奖金额',
+      dataIndex: 'bonus',
+      sorter: true,
+      render: (text, record) => (
+        <div>
+          {`${record.bonus / 100}元`}
+        </div>
+      ),
     },
     {
-      title: '归属窗口',
-      dataIndex: 'lotteryWindowName',
-    },
-    {
-      title: '操作人',
-      dataIndex: 'userName',
-    },
-    {
-      title: '创建时间',
-      dataIndex: 'createdAt',
+      title: '开奖时间',
+      dataIndex: 'checkTime',
     },
   ]
 
   return (
     <div>
-      <LotteryListRecordFilter {...filterProps} />
+      <WinningListFilter {...filterProps} />
       <Table
         columns={columns}
         dataSource={list}
@@ -93,6 +90,7 @@ const LotteryRecordList = ({
         rowKey={record => record.id}
         loading={loading}
         pagination={false}
+        onChange={tableChangeHandler}
       />
       <Pagination
         className="ant-table-pagination"
@@ -107,7 +105,7 @@ const LotteryRecordList = ({
 }
 
 function mapStateToProps(state) {
-  const { list, total, pageIndex, loading } = state.lotteryRecordList;
+  const { list, total, pageIndex, loading } = state.winningList;
   return {
     list,
     total,
@@ -116,4 +114,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default withRouter(connect(mapStateToProps)(LotteryRecordList));
+export default withRouter(connect(mapStateToProps)(WinningList));
