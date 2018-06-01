@@ -56,7 +56,7 @@ const route2Menu = ({ path, redirect, subRoutes = [], title, roles, icon }, inde
       </SubMenu> :
       <MenuItem key={path}>
         {/* todo key和props的key重复? */}
-        <Link to={path}>{icon ? <Icon type={icon} /> : ""}<span>{title}</span></Link>
+        <Link to={path} replace>{icon ? <Icon type={icon} /> : ""}<span>{title}</span></Link>
       </MenuItem>
   )
 }
