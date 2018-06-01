@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { withRouter } from 'dva/router';
-import { Table, Pagination} from 'antd'
+import { Table, Pagination } from 'antd'
 import { PAGE_SIZE } from '../utils/constant'
 import LotteryOrderListFilter from './LotteryOrderListFilter'
 
@@ -90,6 +90,15 @@ const LotteryOrderList = ({
     {
       title: '中奖状态',
       dataIndex: 'bonusState',
+    },
+    {
+      title: '订单状态',
+      dataIndex: 'orderStatus',
+      render: (text, record) => (
+        <div>
+          {record.orderStatus === 'WAIT_TO_PAY' ? "待支付" : record.orderStatus === 'PAYED' ? "已支付" : "已关闭"}
+        </div>
+      ),
     },
   ]
 

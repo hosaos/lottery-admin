@@ -4,7 +4,7 @@ import { PAGE_SIZE } from '../utils/constant'
 export default {
   getList({ pageIndex, pageSize, lotteryWindowId }) {
     const params = { pageIndex, pageSize, lotteryWindowId };
-    return request('/lottery/order/relation/list', {
+    return request('/lottery/order/relation/listByWindow', {
       method: 'get',
       data: params
     });

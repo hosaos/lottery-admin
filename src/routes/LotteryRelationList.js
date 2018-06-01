@@ -9,7 +9,8 @@ import Cookie from '../utils/cookie';
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
-let timer = null
+let timer = null;
+let minKeyId = 0;
 class LotteryRelationList extends React.Component {
   componentDidMount() {
     // 查看窗口权限
@@ -100,7 +101,8 @@ class LotteryRelationList extends React.Component {
       // key: 'action',
       render: (text, record) => (
         <span>
-          {record.checkStatus === 'UNCHECK' ? <a onClick={this.getLotteryDetail.bind(this, record)}>兑奖</a> : <label>已兑</label>}
+          {record.checkStatus === 'UNCHECK' ? (minKeyId === record.id ? <a onClick={this.getLotteryDetail.bind(this, record)}>兑奖</a> : <label>待兑奖</label>)
+            : <label>已兑</label>}
         </span>
       ),
     }
@@ -108,6 +110,14 @@ class LotteryRelationList extends React.Component {
 
   render() {
     const { loading, list, currentItem, windowList, bonusList, buttonDisabled } = this.props;
+    if (list) {
+      for (const record of list) {
+        if (record.checkStatus === 'UNCHECK') {
+          minKeyId = record.id;
+          break;
+        }
+      }
+    }
     const windowButtons = windowList.map(d =>
       <span>
         <RadioButton key={d} value={d}>{`窗口${d}`}</RadioButton>

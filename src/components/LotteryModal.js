@@ -4,6 +4,8 @@ import Selector from './Selector'
 import request from '../utils/request';
 
 const FormItem = Form.Item;
+const confirm = Modal.confirm;
+
 class LotteryModal extends Component {
 
   constructor(props) {
@@ -42,7 +44,6 @@ class LotteryModal extends Component {
       visible: false,
     });
   };
-
   okHandler = () => {
     const { onOk } = this.props;
     this.props.form.validateFields((err, values) => {
@@ -52,10 +53,23 @@ class LotteryModal extends Component {
         }
         const typeId = values.lotteryTypeId;
         const windowId = values.lotteryWindowId;
-        this.state.typeList.map(d =>  d.id === typeId ? values.lotteryTypeName = d.name : "");
+        this.state.typeList.map(d => d.id === typeId ? values.lotteryTypeName = d.name : "");
         this.state.windowList.map(d => d.id === windowId ? values.lotteryWindowName = d.name : "");
-        console.log(values);
-        onOk(values, cb);
+        confirm({
+          title: <h2>确认彩票信息无误?</h2>,
+          content: <div>
+            <h2>{`类型: ${values.lotteryTypeName}`}</h2>
+            <h2>{`窗口: ${values.lotteryWindowId}`}</h2>
+            <h2>{`票号: ${values.start} - ${values.end}`}</h2>
+          </div>,
+          onOk() {
+            console.log(values);
+            onOk(values, cb);
+          },
+          onCancel() {
+            console.log('Cancel');
+          },
+        });
       }
     });
   };
