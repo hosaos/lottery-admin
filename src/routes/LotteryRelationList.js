@@ -12,18 +12,6 @@ const RadioGroup = Radio.Group;
 let timer = null
 class LotteryRelationList extends React.Component {
   componentDidMount() {
-    // this.props.dispatch({
-    //   type: 'lotteryRelationList/get',
-    //   payload: { pageIndex: 1, pageSize: 10 }
-    // });
-    // 每30秒刷一次也没
-    // timer = setInterval(() => {
-    //   this.props.dispatch({
-    //     type: 'lotteryRelationList/get',
-    //     payload: { pageIndex: 1, pageSize: 10 }
-    //   });
-    // }, 20 * 1000)
-
     // 查看窗口权限
     const userId = Cookie.getItem("userId");
     request(`/user/getUserInfoById/${userId}`, {
@@ -46,20 +34,35 @@ class LotteryRelationList extends React.Component {
     // 重新开启一个针对当前windowId的定时器
     const lotteryWindowId = e.target.value;
     this.props.dispatch({
-      type: 'lotteryRelationList/get',
-      payload: { pageIndex: 1, pageSize: 10, lotteryWindowId }
+      type: 'lotteryRelationList/setCurrentWindow',
+      payload: { lotteryWindowId }
+    });
+    this.props.dispatch({
+      type: 'lotteryRelationList/reload',
     });
     timer = setInterval(() => {
       this.props.dispatch({
-        type: 'lotteryRelationList/get',
-        payload: { pageIndex: 1, pageSize: 10, lotteryWindowId }
+        type: 'lotteryRelationList/reload',
       });
     }, 10 * 1000)
   };
-  checkLottery = (record) => {
+
+  onBonusChange = (e) => {
+    this.props.dispatch({
+      type: 'lotteryRelationList/setBonus',
+      payload: { bonusId: e.target.value },
+    })
+  };
+  getLotteryDetail = (record) => {
     this.props.dispatch({
       type: 'lotteryRelationList/setCurrentItem',
       payload: record,
+    })
+  };
+
+  checkLottery = () => {
+    this.props.dispatch({
+      type: 'lotteryRelationList/checkLottery',
     })
   };
   columns = [
@@ -88,7 +91,7 @@ class LotteryRelationList extends React.Component {
       dataIndex: 'bonus',
       render: (text, record) => (
         <div>
-          {`${record.bonus / 100}元`}
+          {record.checkStatus === 'CHECKED' ? `${record.bonus / 100}元` : ""}
         </div>
       ),
     },
@@ -97,15 +100,26 @@ class LotteryRelationList extends React.Component {
       // key: 'action',
       render: (text, record) => (
         <span>
-          {record.checkStatus === 'UNCHECK' ? <a onClick={this.checkLottery.bind(this, record)}>兑奖</a> : <p>已兑</p>}
+          {record.checkStatus === 'UNCHECK' ? <a onClick={this.getLotteryDetail.bind(this, record)}>兑奖</a> : <label>已兑</label>}
         </span>
       ),
     }
   ]
 
   render() {
-    const { loading, list, currentItem, windowList } = this.props;
-    const windowButtons = windowList.map(d => <RadioButton key={d} value={d}>{`窗口${d}`}</RadioButton>);
+    const { loading, list, currentItem, windowList, bonusList, buttonDisabled } = this.props;
+    const windowButtons = windowList.map(d =>
+      <span>
+        <RadioButton key={d} value={d}>{`窗口${d}`}</RadioButton>
+        <Divider type="vertical" />
+      </span>
+    );
+    const bonusButtons = bonusList.map(d =>
+      <span>
+        <RadioButton value={d.id}>{`${d.bonus / 100}元`}</RadioButton>
+        <Divider type="vertical" />
+      </span>
+    );
     return (
       <div>
         <div style={{ textAlign: "center", marginBottom: "10px" }}>
@@ -116,20 +130,26 @@ class LotteryRelationList extends React.Component {
         <div style={{ textAlign: "center", border: "1px dotted grey", marginBottom: "10px" }}>
           <div className="Grid" style={{ margin: "10px" }}>
             <div className="GridCell">
-              <h2>票号: {currentItem ? currentItem.ticketNumber : ""}</h2>
+              <h2>票号: <font color="red" size="5">{currentItem ? currentItem.ticketNumber : ""} </font> </h2>
             </div>
             <div className="GridCell">
               <h2>类型: {currentItem ? currentItem.lotteryTypeName : ""}</h2>
             </div>
             <div className="GridCell">
-              <h2>票面价: {currentItem ? `${currentItem.price / 100}元` : ""}</h2>
+              <h2>票面价: {currentItem && currentItem.price ? `${currentItem.price / 100}元` : ""}</h2>
             </div>
             <div className="GridCell">
               <h2>购买用户: {currentItem ? currentItem.userName : ""}</h2>
             </div>
           </div>
-          <div style={{ margin: "10px" }}>
-            <Button type="primary">确认兑奖</Button>
+          <div style={{ marginBottom: "10px" }}>
+            <font color="red" size="5">中奖金额: </font>
+            <RadioGroup onChange={this.onBonusChange} size="large">
+              {bonusButtons}
+            </RadioGroup>
+          </div>
+          <div style={{ margin: "15px" }}>
+            <Button type="primary" onClick={this.checkLottery} disabled={buttonDisabled}>确认兑奖</Button>
           </div>
         </div>
         <Table
@@ -146,7 +166,7 @@ class LotteryRelationList extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { list, total, pageIndex, loading, currentItem, windowList } = state.lotteryRelationList;
+  const { list, total, pageIndex, loading, currentItem, windowList, bonusList, buttonDisabled, lotteryWindowId } = state.lotteryRelationList;
   return {
     list,
     total,
@@ -154,6 +174,9 @@ function mapStateToProps(state) {
     loading,
     currentItem,
     windowList,
+    bonusList,
+    buttonDisabled,
+    lotteryWindowId,
   };
 }
 // function mapStateToProps({ list, currentItem, loading }) {

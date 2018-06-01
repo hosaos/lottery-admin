@@ -9,4 +9,12 @@ export default {
       data: params
     });
   },
+
+  checkLottery({ id, bonusId }) {
+    const params = { id, bonusId };
+    return request('/lottery/order/relation/checkLottery', {
+      method: 'POST',
+      data: params,
+    });
+  },
 }
